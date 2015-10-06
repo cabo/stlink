@@ -554,6 +554,9 @@ int stlink_load_device_params(stlink_t *sl) {
         }
     } else {
         sl->flash_size = flash_size * 1024;
+        /* HACK for STM21F103C8T6 */
+        if (sl->flash_size == 64 * 1024 && getenv("C8T6HACK"))
+          sl->flash_size = 128 * 1024;
     }
     sl->flash_pgsz = params->flash_pagesize;
     sl->sram_size = params->sram_size;
